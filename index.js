@@ -2,6 +2,38 @@ var cookie = require('cookie');
 
 module.exports = function () {
 	return function (req, res, next) {
+		req.params = req.query = (function urlParse(str) {
+			if (typeof str !== 'string') {
+				return {};
+			}
+
+			str = str.trim().replace(/^(\?|#|&)/, '');
+
+			if (!str) {
+				return {};
+			}
+
+			return str.split('&').reduce(function (ret, param) {
+				var parts = param.replace(/\+/g, ' ').split('=');
+				var key = parts.shift();
+				var val = parts.length > 0 ? parts.join('=') : undefined;
+
+				key = decodeURIComponent(key);
+
+				val = val === undefined ? null : decodeURIComponent(val);
+
+				if (!ret.hasOwnProperty(key)) {
+					ret[key] = val;
+				} else if (Array.isArray(ret[key])) {
+					ret[key].push(val);
+				} else {
+					ret[key] = [ret[key], val];
+				}
+
+				return ret;
+			}, {});
+		})(req._parsedUrl.query);
+
 		res.setCookie = function (name, val, options) {
 			options = options || {};
 			if ('object' === typeof val) {
