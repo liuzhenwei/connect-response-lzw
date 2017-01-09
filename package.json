@@ -1,0 +1,20 @@
+{
+  "name": "connect-response-lzw",
+  "version": "1.0.0",
+  "description": "connect-response by liuzhenwei modify",
+  "readme": "connect-response by liuzhenwei modify",
+  "main": "index.js",
+  "keywords": [
+    "connect",
+    "response"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/liuzhenwei/connect-response-lzw.git"
+  },
+  "author": "liuzhenwei",
+  "dependencies": {
+    "cookie": "^0.3.1"
+  },
+  "license": "MIT"
+}
