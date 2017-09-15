@@ -1,6 +1,6 @@
 {
   "name": "connect-response-lzw",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "connect-response by liuzhenwei modify",
   "readme": "connect-response by liuzhenwei modify",
   "main": "index.js",

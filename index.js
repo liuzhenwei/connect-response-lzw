@@ -2,7 +2,7 @@ var cookie = require('cookie');
 
 module.exports = function () {
 	return function (req, res, next) {
-		req.params = req.query = (function urlParse(str) {
+		var queryParams = (function urlParse(str) {
 			if (typeof str !== 'string') {
 				return {};
 			}
@@ -34,6 +34,9 @@ module.exports = function () {
 			}, {});
 		})(req._parsedUrl.query);
 
+		req.params == req.params || queryParams;
+		req.query == req.query || queryParams;
+
 		res.setCookie = function (name, val, options) {
 			options = options || {};
 			if ('object' === typeof val) {
@@ -63,7 +66,7 @@ module.exports = function () {
 			res.setCookie(name, '', options);
 		};
 
-		res.text = function (text, status, contentType, charset) {
+		res.text = res.text || function (text, status, contentType, charset) {
 			contentType = contentType || 'text/plain';
 			charset = charset || 'utf-8';
 			res.statusCode = status || 200;
@@ -71,19 +74,19 @@ module.exports = function () {
 			res.end(text);
 		};
 
-		res.html = function (html, charset) {
+		res.html = res.html || function (html, charset) {
 			res.text(html, 200, 'text/html', charset || 'utf-8');
 		};
 
-		res.xml = function (xml, charset) {
+		res.xml = res.xml || function (xml, charset) {
 			res.text(xml, 200, 'text/xml', charset || 'utf-8');
 		};
 
-		res.json = function (json, charset) {
+		res.json = res.json || function (json, charset) {
 			res.text(JSON.stringify(json), 200, 'application/json', charset || 'utf-8');
 		};
 
-		res.redirect = function (url, status) {
+		res.redirect = res.redirect || function (url, status) {
 			res.statusCode = status || 302;
 			res.setHeader('Location', url);
 			res.end();
